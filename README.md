@@ -1,2 +1,2 @@
 # jotdown
-Simple app for searchable notes
+Simple, searchable notes
