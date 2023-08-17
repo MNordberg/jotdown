@@ -19,8 +19,17 @@ import { RouterModule } from '@nestjs/core';
     NotesModule,
     RouterModule.register([
       {
-        path: 'notes',
-        module: NotesModule,
+        path: 'api',
+        children: [
+          {
+            path: 'notes',
+            module: NotesModule,
+          },
+          {
+            path: 'users',
+            module: UsersModule,
+          },
+        ],
       },
     ]),
   ],
