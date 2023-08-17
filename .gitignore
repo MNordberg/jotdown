@@ -1,9 +1,13 @@
 ﻿# compiled output
 dist/
-/node_modules
+node_modules/
 /build/
 /tmp
 /temp
+node_modules
+dist
+dist-ssr
+*.local
 
 # Logs
 logs
@@ -31,13 +35,17 @@ lerna-debug.log*
 *.sublime-workspace
 .idea/
 .vscode/
-
-# IDE - VSCode
+.vscode/*
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-
-# IDE - VS
 .vs/*
