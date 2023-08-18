@@ -20,4 +20,20 @@ export class NotesService {
     }
     return this.repository.find({ where });
   }
+
+  findOne(id: number) {
+    return this.repository.findOneBy({ id });
+  }
+
+  create(note: Note) {
+    return this.repository.create(note);
+  }
+
+  update(note: Note) {
+    return this.repository.update(note.id, note);
+  }
+
+  delete(id: number) {
+    return this.repository.delete(id);
+  }
 }

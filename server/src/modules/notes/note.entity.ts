@@ -9,6 +9,9 @@ export class Note {
   @Column({ length: 300 })
   text: string;
 
+  @Column()
+  date: Date;
+
   @ManyToOne(() => User, (user) => user.notes)
   user: User;
 }
