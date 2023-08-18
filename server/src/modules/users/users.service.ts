@@ -11,14 +11,6 @@ export class UsersService {
   ) {}
 
   findAll(): Promise<User[]> {
-    return this.usersRepository.find();
-  }
-
-  findOne(id: number): Promise<User | null> {
-    return this.usersRepository.findOneBy({ id });
-  }
-
-  async remove(id: number): Promise<void> {
-    await this.usersRepository.delete(id);
+    return this.usersRepository.find({ where: { isActive: true } });
   }
 }
