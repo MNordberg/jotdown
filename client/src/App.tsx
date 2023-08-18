@@ -8,8 +8,9 @@ function App() {
 
   return (
     <>
-      <div className='header'>
-        I'm the header
+      <div id='header'>
+              <img src="/jotdown.svg" />
+        <h1>Jotdown</h1>
       </div>
       <div id='main'>
         <div>Search bar</div>
