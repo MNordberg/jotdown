@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { Note } from './note.entity';
 import { NotesService } from './notes.service';
 
@@ -7,7 +7,7 @@ export class NotesController {
   constructor(private notesService: NotesService) {}
 
   @Get()
-  getNotes(filter?: string, userId?: number): Promise<Note[]> {
-    return this.notesService.findMatching({ filter, userId });
+  getNotes(@Query() query): Promise<Note[]> {
+    return this.notesService.findMatching(query);
   }
 }

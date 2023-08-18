@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, Like, Repository } from 'typeorm';
 import { Note } from './note.entity';
 
 @Injectable()
@@ -11,9 +11,9 @@ export class NotesService {
   ) {}
 
   findMatching({ filter, userId }): Promise<Note[]> {
-    const where: any = {};
+    const where: FindOptionsWhere<Note> = {};
     if (filter) {
-      where.text = filter;
+      where.text = Like(`%${filter}%`);
     }
     if (userId) {
       where.user = { id: userId };
