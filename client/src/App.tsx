@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  Avatar,
   Button,
   Divider,
   Fab,
@@ -18,25 +19,34 @@ import React from "react";
 import Note from "./components/Note/Note";
 import axios from "axios";
 import "./App.css";
-import { INote } from "./components/Note/INote";
+import { INote } from "./data/INote";
 import { useDebouncedCallback } from "use-debounce";
+import { IUser } from "./data/IUser";
 
 function App() {
   const [filter, setFilter] = useState("");
+  const [userId, setUserId] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [users, setUsers]: [IUser[], Function] = useState([]);
   const [notes, setNotes]: [INote[], Function] = useState([]);
   const [message, setMessage] = useState(null);
 
   const debounceFilter = useDebouncedCallback(setFilter, 300);
 
   useEffect(() => {
+    axios(`${import.meta.env.VITE_API_URL}/users`)
+      .then((res) => setUsers(res.data))
+      .catch((err) => setMessage(err.message));
+  }, []);
+
+  useEffect(() => {
     axios(`${import.meta.env.VITE_API_URL}/notes`, {
-      params: { filter: filter },
+      params: { filter: filter || null, userId: userId || null },
     })
       .then((res) => setNotes(res.data))
       .catch((err) => setMessage(err.message))
       .finally(() => setIsLoading(false));
-  }, [filter]);
+  }, [filter, userId]);
 
   const filterControl = (
     <>
@@ -57,15 +67,29 @@ function App() {
     </>
   );
 
+  const usersSelectControl = (
+    <div className="avatars">
+      {users.map((user) => (
+        <Avatar
+          key={user.id}
+          alt={`${user.firstName} ${user.lastName}`}
+          src={user.avatarUrl}
+          onClick={() => setUserId(userId == user.id ? 0 : user.id)}
+          className={userId && userId != user.id ? "faded" : ""}
+        />
+      ))}
+    </div>
+  );
+
   const notesList = (
     <List>
       {notes.map((note: INote) => (
-        <>
+        <React.Fragment key={note.id}>
           <Divider />
           <ListItem>
             <Note note={note} key={note.id}></Note>
           </ListItem>
-        </>
+        </React.Fragment>
       ))}
     </List>
   );
@@ -80,7 +104,9 @@ function App() {
 
   const loadingText = <p>Loading...</p>;
 
-  const emptyText = <p>{`No ${filter ? "matching" : ""} notes found.`}</p>;
+  const emptyText = (
+    <p>{`No ${filter || userId ? "matching" : ""} notes found.`}</p>
+  );
 
   return (
     <>
@@ -90,6 +116,7 @@ function App() {
       </div>
       <div id="main">
         <div>{filterControl}</div>
+        <div>{usersSelectControl}</div>
         {isLoading ? loadingText : notes.length ? notesList : emptyText}
       </div>
       <div className="floating-action">

@@ -7,7 +7,8 @@ function Note({ note }) {
       <p>
         <span className="text">{note.text}</span>
         <small className="light">
-          <ReactTimeAgo date={note.date} />
+          {note.user.firstName} {note.user.lastName} {" | "}
+          <ReactTimeAgo date={new Date(note.date)} />
         </small>
       </p>
     </>

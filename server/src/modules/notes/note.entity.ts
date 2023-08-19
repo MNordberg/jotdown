@@ -12,6 +12,6 @@ export class Note {
   @Column()
   date: Date;
 
-  @ManyToOne(() => User, (user) => user.notes)
+  @ManyToOne(() => User, (user) => user.notes, { eager: true })
   user: User;
 }

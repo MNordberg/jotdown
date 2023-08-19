@@ -17,6 +17,7 @@
 #header h1 {
   margin: 0;
   font-size: 2rem;
+  font-weight: 100;
   font-family: "Outfit", sans-serif;
 }
 
@@ -29,6 +30,21 @@
 
 .MuiTextField-root {
   width: 100%;
+}
+
+.avatars {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  margin: 1rem;
+}
+
+.avatars .MuiAvatar-root {
+  cursor: pointer;
+}
+
+.avatars .faded {
+  opacity: 0.4;
 }
 
 .logo {

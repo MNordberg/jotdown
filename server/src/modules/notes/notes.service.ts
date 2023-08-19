@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOptionsWhere, Like, Repository } from 'typeorm';
+import { Brackets, Like, Repository } from 'typeorm';
 import { Note } from './note.entity';
 
 @Injectable()
@@ -11,14 +11,27 @@ export class NotesService {
   ) {}
 
   findMatching({ filter, userId }): Promise<Note[]> {
-    const where: FindOptionsWhere<Note> = {};
-    if (filter) {
-      where.text = Like(`%${filter}%`);
-    }
-    if (userId) {
-      where.user = { id: userId };
-    }
-    return this.repository.find({ where });
+    const like = filter && `%${filter}%`;
+    return this.repository
+      .createQueryBuilder('note')
+      .innerJoinAndSelect('note.user', 'user')
+      .where(
+        new Brackets((q) =>
+          q.where(':userId IS NULL', { userId }).orWhere('user.id = :userId', {
+            userId,
+          }),
+        ),
+      )
+      .andWhere(
+        new Brackets((q) =>
+          q
+            .where(':filter IS NULL', { filter })
+            .orWhere('note.text LIKE :like', { like })
+            .orWhere('user.firstName LIKE :like', { like })
+            .orWhere('user.lastName LIKE :like', { like }),
+        ),
+      )
+      .getMany();
   }
 
   findOne(id: number) {
