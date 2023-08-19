@@ -3,21 +3,21 @@
   box-sizing: border-box;
 }
 
-#header{
-    padding:2rem;
-    display: flex;
-    align-items:center;
-    gap: 1rem;
+#header {
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
-#header img{
-    max-height:3rem;
-    max-width: 3rem;
+#header img {
+  max-height: 3rem;
+  max-width: 3rem;
 }
-#header h1{
-    margin: 0;
-    font-size:2rem;
-    font-family: 'Outfit', sans-serif
+#header h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-family: "Outfit", sans-serif;
 }
 
 #main {
@@ -25,6 +25,10 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+}
+
+.MuiTextField-root {
+  width: 100%;
 }
 
 .logo {
@@ -58,17 +62,8 @@
   }
 }
 
-.card {
-  padding: 2em;
-}
-
 .floating-action {
   position: fixed;
-  bottom: 2.5rem;
-  right: 2.5rem;
-}
-
-/* temp */
-div {
-  border: 1px dashed lightgray
+  bottom: 1.5rem;
+  right: 1.5rem;
 }
