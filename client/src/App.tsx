@@ -15,15 +15,14 @@ import {
   Tooltip,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import SearchIcon from "@mui/icons-material/Search";
 import React from "react";
 import Note from "./components/Note/Note";
 import axios from "axios";
 import "./App.css";
 import { INote } from "./data/INote";
-import { useDebouncedCallback } from "use-debounce";
 import { IUser } from "./data/IUser";
 import NoteEdit from "./components/NoteEdit/NoteEdit";
+import Search from "./components/Search/Search";
 
 function App() {
   const [filter, setFilter] = useState("");
@@ -33,8 +32,6 @@ function App() {
   const [notes, setNotes]: [INote[], Function] = useState([]);
   const [editNote, setEditNote]: [INote | null, Function] = useState(null);
   const [message, setMessage]: [string, Function] = useState("");
-
-  const debounceFilter = useDebouncedCallback(setFilter, 300);
 
   const addNote = () => setEditNote({ date: new Date() });
 
@@ -76,45 +73,6 @@ function App() {
       .catch((err) => setMessage(err.message))
       .finally(() => setIsLoading(false));
   }, [filter, userId]);
-
-  const filterControl = (
-    <>
-      <FormControl fullWidth variant="outlined">
-        <InputLabel htmlFor="filter">Search...</InputLabel>
-
-        <OutlinedInput
-          id="filter"
-          label="Search..."
-          onChange={(e) => debounceFilter(e.target.value)}
-          endAdornment={
-            <InputAdornment position="end">
-              <SearchIcon />
-            </InputAdornment>
-          }
-        />
-      </FormControl>
-    </>
-  );
-
-  const usersSelectControl = (
-    <div className="avatars">
-      {users.map((user) => (
-        <Tooltip
-          key={user.id}
-          title={`${userId == user.id ? "Stop seeing" : "See"} only notes for ${
-            user.firstName
-          }`}
-        >
-          <Avatar
-            alt={`${user.firstName} ${user.lastName}`}
-            src={user.avatarUrl}
-            onClick={() => setUserId(userId == user.id ? 0 : user.id)}
-            className={userId && userId != user.id ? "faded" : ""}
-          />
-        </Tooltip>
-      ))}
-    </div>
-  );
 
   const notesList = (
     <List>
@@ -179,8 +137,12 @@ function App() {
         <h1>Jotdown</h1>
       </div>
       <div id="main">
-        <div>{filterControl}</div>
-        <div>{usersSelectControl}</div>
+        <Search
+          users={users}
+          userId={userId}
+          onFilterChange={setFilter}
+          onUserSelected={setUserId}
+        ></Search>
         {isLoading ? loadingText : notes.length ? notesList : emptyText}
       </div>
       {action}

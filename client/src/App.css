@@ -28,25 +28,6 @@
   text-align: center;
 }
 
-.MuiTextField-root {
-  width: 100%;
-}
-
-.avatars {
-  display: flex;
-  flex-direction: row;
-  gap: 1rem;
-  margin: 1rem;
-}
-
-.avatars .MuiAvatar-root {
-  cursor: pointer;
-}
-
-.avatars .faded {
-  opacity: 0.4;
-}
-
 .logo {
   height: 6em;
   padding: 1.5em;
