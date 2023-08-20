@@ -12,7 +12,9 @@ import {
   OutlinedInput,
   Snackbar,
   TextField,
+  ThemeProvider,
   Tooltip,
+  createTheme,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import React from "react";
@@ -25,6 +27,16 @@ import NoteEdit from "./components/NoteEdit/NoteEdit";
 import Search from "./components/Search/Search";
 
 function App() {
+  const theme = createTheme({
+    palette: {
+      primary: {
+        light: "#b1a1de",
+        main: "#775bc5",
+        dark: "#452e84",
+      },
+    },
+  });
+
   const [filter, setFilter] = useState("");
   const [userId, setUserId] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -131,7 +143,7 @@ function App() {
   );
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <div id="header">
         <img src="/jotdown.svg" alt="Logo" />
         <h1>Jotdown</h1>
@@ -159,7 +171,7 @@ function App() {
         onSaved={onNoteSaved}
         onError={(message: string) => setMessage(message)}
       ></NoteEdit>
-    </>
+    </ThemeProvider>
   );
 }
 
