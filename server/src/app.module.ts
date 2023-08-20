@@ -4,13 +4,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './modules/users/users.module';
 import { NotesModule } from './modules/notes/notes.module';
-import { OrmConfig } from './orm-config';
+import { DataSourceConfig } from './data-source-config';
 import { RouterModule } from '@nestjs/core';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      ...OrmConfig,
+      ...DataSourceConfig,
       entities: ['dist/**/*.entity.js'],
       migrations: ['dist/migrations/*.js'],
       autoLoadEntities: true,
