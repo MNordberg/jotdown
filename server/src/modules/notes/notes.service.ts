@@ -31,6 +31,7 @@ export class NotesService {
             .orWhere('user.lastName LIKE :like', { like }),
         ),
       )
+      .orderBy('date', 'DESC')
       .getMany();
   }
 
@@ -38,12 +39,8 @@ export class NotesService {
     return this.repository.findOneBy({ id });
   }
 
-  create(note: Note) {
-    return this.repository.create(note);
-  }
-
-  update(note: Note) {
-    return this.repository.update(note.id, note);
+  save(note: Note) {
+    return this.repository.save(note);
   }
 
   delete(id: number) {
