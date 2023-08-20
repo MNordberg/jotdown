@@ -1,14 +1,21 @@
 import ReactTimeAgo from "react-time-ago";
 import "./Note.css";
 
-function Note({ note }) {
+function Note({ note, onEdit, onDelete }) {
   return (
     <>
-      <p>
+      <p className="hover-parent">
         <span className="text">{note.text}</span>
-        <small className="light">
-          {note.user.firstName} {note.user.lastName} {" | "}
-          <ReactTimeAgo date={new Date(note.date)} />
+        <small className="light note-info">
+          <span>
+            Re: {note.user?.firstName} {note.user?.lastName} {" | "}
+            <ReactTimeAgo date={new Date(note.date)} />
+          </span>
+          <span className="actions">
+            <a onClick={onEdit}>Edit</a>
+            {" | "}
+            <a onClick={onDelete}>Delete</a>
+          </span>
         </small>
       </p>
     </>

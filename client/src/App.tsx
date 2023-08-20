@@ -12,6 +12,7 @@ import {
   OutlinedInput,
   Snackbar,
   TextField,
+  Tooltip,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
@@ -22,6 +23,7 @@ import "./App.css";
 import { INote } from "./data/INote";
 import { useDebouncedCallback } from "use-debounce";
 import { IUser } from "./data/IUser";
+import NoteEdit from "./components/NoteEdit/NoteEdit";
 
 function App() {
   const [filter, setFilter] = useState("");
@@ -29,9 +31,36 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [users, setUsers]: [IUser[], Function] = useState([]);
   const [notes, setNotes]: [INote[], Function] = useState([]);
-  const [message, setMessage] = useState(null);
+  const [editNote, setEditNote]: [INote | null, Function] = useState(null);
+  const [message, setMessage]: [string, Function] = useState("");
 
   const debounceFilter = useDebouncedCallback(setFilter, 300);
+
+  const addNote = () => setEditNote({ date: new Date() });
+
+  const onNoteSaved = (saved) => {
+    const noteToUpdate = notes.find((n) => n.id == saved.id);
+    if (noteToUpdate) {
+      Object.assign(noteToUpdate, saved);
+    } else {
+      notes.unshift(saved);
+    }
+    setNotes(notes);
+    setEditNote(null);
+  };
+
+  const deleteNote = (note) => {
+    const idx = notes.indexOf(note);
+    notes.splice(idx, 1);
+    setNotes([...notes]);
+    axios
+      .delete(`${import.meta.env.VITE_API_URL}/notes/${note.id}`)
+      .catch((err) => {
+        notes.splice(idx, 0, note);
+        setNotes([...notes]);
+        setMessage(err.message);
+      });
+  };
 
   useEffect(() => {
     axios(`${import.meta.env.VITE_API_URL}/users`)
@@ -50,7 +79,7 @@ function App() {
 
   const filterControl = (
     <>
-      <FormControl sx={{ width: "100%" }} variant="outlined">
+      <FormControl fullWidth variant="outlined">
         <InputLabel htmlFor="filter">Search...</InputLabel>
 
         <OutlinedInput
@@ -70,13 +99,19 @@ function App() {
   const usersSelectControl = (
     <div className="avatars">
       {users.map((user) => (
-        <Avatar
+        <Tooltip
           key={user.id}
-          alt={`${user.firstName} ${user.lastName}`}
-          src={user.avatarUrl}
-          onClick={() => setUserId(userId == user.id ? 0 : user.id)}
-          className={userId && userId != user.id ? "faded" : ""}
-        />
+          title={`${userId == user.id ? "Stop seeing" : "See"} only notes for ${
+            user.firstName
+          }`}
+        >
+          <Avatar
+            alt={`${user.firstName} ${user.lastName}`}
+            src={user.avatarUrl}
+            onClick={() => setUserId(userId == user.id ? 0 : user.id)}
+            className={userId && userId != user.id ? "faded" : ""}
+          />
+        </Tooltip>
       ))}
     </div>
   );
@@ -87,11 +122,40 @@ function App() {
         <React.Fragment key={note.id}>
           <Divider />
           <ListItem>
-            <Note note={note} key={note.id}></Note>
+            <Note
+              note={note}
+              key={note.id}
+              onEdit={() => setEditNote(note)}
+              onDelete={() => deleteNote(note)}
+            />
           </ListItem>
         </React.Fragment>
       ))}
     </List>
+  );
+
+  const action = !editNote && (
+    <div className="floating-action">
+      <Fab
+        size="medium"
+        color="primary"
+        aria-label="add"
+        className="mobile"
+        onClick={addNote}
+      >
+        <AddIcon />
+      </Fab>
+      <Fab
+        variant="extended"
+        color="primary"
+        size="medium"
+        className="hidden-mobile"
+        onClick={addNote}
+      >
+        <AddIcon sx={{ mr: 1 }} />
+        Add Note
+      </Fab>
+    </div>
   );
 
   const dismissMessage = (
@@ -119,26 +183,20 @@ function App() {
         <div>{usersSelectControl}</div>
         {isLoading ? loadingText : notes.length ? notesList : emptyText}
       </div>
-      <div className="floating-action">
-        <Fab size="medium" color="primary" aria-label="add" className="mobile">
-          <AddIcon />
-        </Fab>
-        <Fab
-          variant="extended"
-          color="primary"
-          size="medium"
-          className="hidden-mobile"
-        >
-          <AddIcon sx={{ mr: 1 }} />
-          Add Note
-        </Fab>
-      </div>
+      {action}
       <Snackbar
         open={!!message}
         autoHideDuration={6000}
         message={message}
         action={dismissMessage}
       />
+      <NoteEdit
+        note={editNote}
+        users={users}
+        onClose={() => setEditNote(null)}
+        onSaved={onNoteSaved}
+        onError={(message: string) => setMessage(message)}
+      ></NoteEdit>
     </>
   );
 }

@@ -25,16 +25,11 @@ a:hover {
   color: #535bf2;
 }
 
-.light {
-  color: #999;
-}
-
 body {
   margin: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 100vw;
   min-height: 100vh;
 }
 
@@ -60,6 +55,12 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+.hint {
+  font-family: Roboto, sans-serif;
+  color: #999;
+  font-size: x-small;
 }
 
 @media (prefers-color-scheme: light) {
