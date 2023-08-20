@@ -1,19 +1,12 @@
 import { useEffect, useState } from "react";
 import {
-  Avatar,
   Button,
   Divider,
   Fab,
-  FormControl,
-  InputAdornment,
-  InputLabel,
   List,
   ListItem,
-  OutlinedInput,
   Snackbar,
-  TextField,
   ThemeProvider,
-  Tooltip,
   createTheme,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -21,8 +14,8 @@ import React from "react";
 import Note from "./components/Note/Note";
 import axios from "axios";
 import "./App.css";
-import { INote } from "./data/INote";
-import { IUser } from "./data/IUser";
+import { INote } from "./interfaces/INote";
+import { IUser } from "./interfaces/IUser";
 import NoteEdit from "./components/NoteEdit/NoteEdit";
 import Search from "./components/Search/Search";
 
@@ -47,7 +40,7 @@ function App() {
 
   const addNote = () => setEditNote({ date: new Date() });
 
-  const onNoteSaved = (saved) => {
+  const onNoteSaved = (saved: INote) => {
     const noteToUpdate = notes.find((n) => n.id == saved.id);
     if (noteToUpdate) {
       Object.assign(noteToUpdate, saved);
@@ -58,7 +51,7 @@ function App() {
     setEditNote(null);
   };
 
-  const deleteNote = (note) => {
+  const deleteNote = (note: INote) => {
     const idx = notes.indexOf(note);
     notes.splice(idx, 1);
     setNotes([...notes]);

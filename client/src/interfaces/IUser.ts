@@ -1,7 +1,7 @@
 export interface IUser {
   id: number;
   firstName: string;
-  lastName: Date;
+  lastName: string;
   avatarUrl: string;
   selected: boolean;
 }

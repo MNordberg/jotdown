@@ -9,8 +9,15 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import { useDebouncedCallback } from "use-debounce";
 import "./Search.css";
+import { IUser } from "../../interfaces/IUser";
 
-function Search({ users, userId, onFilterChange, onUserSelected }) {
+function Search(props: {
+  users: IUser[];
+  userId: number;
+  onFilterChange: any;
+  onUserSelected: any;
+}) {
+  const { users, userId, onFilterChange, onUserSelected } = props;
   const debounceFilter = useDebouncedCallback(onFilterChange, 300);
 
   return (

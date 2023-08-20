@@ -1,6 +1,5 @@
 import {
   Button,
-  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -12,13 +11,20 @@ import {
   TextField,
 } from "@mui/material";
 import "./NoteEdit.css";
-import { IUser } from "../../data/IUser";
+import { IUser } from "../../interfaces/IUser";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { INote } from "../../data/INote";
+import { INote } from "../../interfaces/INote";
 
-function NoteEdit({ note, users, onClose, onSaved, onError }) {
+function NoteEdit(props: {
+  note: INote | null;
+  users: IUser[];
+  onClose: any;
+  onSaved: any;
+  onError: any;
+}) {
+  const { note, users, onClose, onSaved, onError } = props;
   const [isOpen, setIsOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -36,8 +42,8 @@ function NoteEdit({ note, users, onClose, onSaved, onError }) {
       setIsSaving(true);
       const saving = {
         ...values,
-        id: note.id,
-        user: users.find((u) => u.id == values.userId),
+        id: note?.id,
+        user: users.find((u: IUser) => u.id == values.userId),
       };
       axios
         .put(`${import.meta.env.VITE_API_URL}/notes`, saving)

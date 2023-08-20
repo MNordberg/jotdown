@@ -1,7 +1,9 @@
 import ReactTimeAgo from "react-time-ago";
 import "./Note.css";
+import { INote } from "../../interfaces/INote";
 
-function Note({ note, onEdit, onDelete }) {
+function Note(props: { note: INote; onEdit: any; onDelete: any }) {
+  const { note, onEdit, onDelete } = props;
   return (
     <>
       <p className="hover-parent">
