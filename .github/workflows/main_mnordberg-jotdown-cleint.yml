@@ -1,4 +1,4 @@
-name: Blob storage website CI
+name: Build client and deploy to storage
 
 on:
     push:
@@ -12,6 +12,13 @@ jobs:
     - uses: azure/login@v1
       with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: npm install, build, and test
+      working-directory: ./client
+      run: |
+        npm install
+        npm run build --if-present
+        npm run test --if-present
 
     - name: Upload to blob storage
       uses: azure/CLI@v1
