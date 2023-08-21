@@ -138,7 +138,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div id="header">
-        <img src="/jotdown.svg" alt="Logo" />
+        <img src="/jotdown-logo.svg" alt="Logo" />
         <h1>Jotdown</h1>
       </div>
       <div id="main">
