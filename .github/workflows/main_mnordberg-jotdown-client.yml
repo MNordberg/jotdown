@@ -25,7 +25,7 @@ jobs:
       with:
         inlineScript: |
             az storage blob delete-batch --account-name jotdown --source '$web'
-            az storage blob upload-batch --account-name jotdown --auth-mode key -d '$web' -s ./dist
+            az storage blob upload-batch --account-name jotdown --auth-mode key -d '$web' -s ./client/dist
 
   # Azure logout
     - name: logout
