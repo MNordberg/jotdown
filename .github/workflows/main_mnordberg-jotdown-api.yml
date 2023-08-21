@@ -49,23 +49,29 @@ jobs:
         with:
           name: node-app
 
-      - name: 'Unzip Artifact'
-        run: unzip release.zip
+      # - name: 'Unzip Artifact'
+      #   run: unzip release.zip
 
-      - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'mnordberg-jotdown-api'
-          slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C030A2E818324CD288A71468FE7306FB }}
-          package: .
+      # - name: 'Deploy to Azure Web App'
+      #   id: deploy-to-webapp
+      #   uses: azure/webapps-deploy@v2
+      #   with:
+      #     app-name: 'mnordberg-jotdown-api'
+      #     slot-name: 'Production'
+      #     publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C030A2E818324CD288A71468FE7306FB }}
+      #     package: .
 
       - name: Azure Login
         uses: Azure/login@v1.4.6
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-          
+
+      - name: 'Deploy to Azure Web App'
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.23.0
+          inlineScript: |
+            az webapp deploy --resource-group jotdown --name mnordberg-jotdown-api --src-path release.zip
 
       - name: 'Start on Azure App Service'
         uses: azure/CLI@v1
