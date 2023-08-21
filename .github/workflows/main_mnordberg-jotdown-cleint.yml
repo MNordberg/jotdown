@@ -30,7 +30,7 @@ jobs:
       uses: azure/CLI@v1
       with:
         inlineScript: |
-           az cdn endpoint purge --content-paths  "/*" --profile-name "jotdown-client" --name "jotdown" --resource-group "jotdown"
+           az cdn endpoint purge --content-paths  "/*" --profile-name "jotdown-client" --name "jotdown-are3g0bfd6b7hngg" --resource-group "jotdown"
 
   # Azure logout
     - name: logout
