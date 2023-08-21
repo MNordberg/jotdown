@@ -26,12 +26,7 @@ jobs:
         inlineScript: |
             az storage blob delete-batch --account-name jotdown --source '$web'
             az storage blob upload-batch --account-name jotdown --auth-mode key -d '$web' -s ./client/dist
-    - name: Purge CDN endpoint
-      uses: azure/CLI@v1
-      with:
-        inlineScript: |
-            az afd endpoint purge --content-paths  "/*" --profile-name "jotdown-client" --resource-group "jotdown" --endpoint-name "jotdown"
- 
+
   # Azure logout
     - name: logout
       run: |
