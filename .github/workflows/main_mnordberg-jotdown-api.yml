@@ -66,5 +66,5 @@ jobs:
         with:
           azcliversion: 2.30.0
           inlineScript: |
-            az webapp config set --resource-group jotdown --name mnordberg-jotdown-api --startup-file "npm run start:prod"
+            az webapp config set --resource-group jotdown --name mnordberg-jotdown-api --startup-file "main.js"
 
