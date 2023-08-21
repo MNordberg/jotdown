@@ -31,7 +31,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: node-app
-          path: ./server/dist
+          path: ./server
 
   deploy:
     runs-on: ubuntu-latest
@@ -66,5 +66,5 @@ jobs:
         with:
           azcliversion: 2.30.0
           inlineScript: |
-            az webapp config set --resource-group jotdown --name mnordberg-jotdown-api --startup-file "main.js"
+            az webapp config set --resource-group jotdown --name mnordberg-jotdown-api --startup-file "node dist/main.js"
 
