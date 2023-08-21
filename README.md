@@ -25,7 +25,7 @@ That being said, I think it's a pretty good showcase. Enjoy!
 - Clone
 - Install packages (`npm install`)
 - Configure database: update configuration in `server/src/data-source-config.ts` to match your sql database. The migration scripts will create a database called "jotdown" if it doesn't exist, so don't change the database name in the configuration.
-- Migrate database: open terminal at `server` and run `typeorm:migrate`
+- Migrate database: open terminal at `server` and run `npm run typeorm:migrate`
 - Start server: open terminal at `server` and run `npm run start`
 - Start client app: open terminal at `client` and run `npm run start`
 
