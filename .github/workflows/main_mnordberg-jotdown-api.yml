@@ -11,6 +11,7 @@ on:
 
 jobs:
   build_deploy:
+    name: Build & Deploy
     runs-on: ubuntu-latest
 
     steps:
@@ -29,12 +30,6 @@ jobs:
 
       - name: 'Zip Artifact'
         run: zip release.zip ./server -r
-
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v2
-        with:
-          name: node-app
-          path: release.zip
 
       # - name: 'Unzip Artifact'
       #   run: unzip release.zip
