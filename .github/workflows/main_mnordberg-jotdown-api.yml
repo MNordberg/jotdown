@@ -54,3 +54,11 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C030A2E818324CD288A71468FE7306FB }}
           package: .
+
+      - name: 'Start on Azure App Service'
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.30.0
+          inlineScript: |
+            az webapp config set --resource-group jotdown --name mnordberg-jotdown-api --startup-file "npm run start:prod"
+
