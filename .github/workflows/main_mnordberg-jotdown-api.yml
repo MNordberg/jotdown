@@ -55,6 +55,9 @@ jobs:
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C030A2E818324CD288A71468FE7306FB }}
           package: .
 
+      - name: Azure Login
+        uses: Azure/login@v1.4.6
+
       - name: 'Start on Azure App Service'
         uses: azure/CLI@v1
         with:
