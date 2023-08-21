@@ -69,14 +69,12 @@ jobs:
       - name: 'Deploy to Azure Web App'
         uses: azure/CLI@v1
         with:
-          azcliversion: 2.23.0
           inlineScript: |
             az webapp deploy --resource-group jotdown --name mnordberg-jotdown-api --src-path release.zip
 
       - name: 'Start on Azure App Service'
         uses: azure/CLI@v1
         with:
-          azcliversion: 2.30.0
           inlineScript: |
             az webapp config set --resource-group jotdown --name mnordberg-jotdown-api --startup-file "node dist/main.js"
 
