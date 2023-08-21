@@ -58,6 +58,7 @@ jobs:
         with:
           app-name: 'mnordberg-jotdown-api'
           slot-name: 'Production'
+          clean: True
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C030A2E818324CD288A71468FE7306FB }}
           package: .
 
