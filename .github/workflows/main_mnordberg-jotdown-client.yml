@@ -4,10 +4,6 @@ on:
     push:
         branches: [ main ]
 
-defaults:
-  run:
-    working-directory: ./client
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,7 +14,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: npm install, build, and test
-      working-directory: .
+      working-directory: ./client
       run: |
         npm install
         npm run build --if-present
