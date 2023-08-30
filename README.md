@@ -2,6 +2,8 @@
 
 Simple, searchable notes
 
+Keyword: Master of my Craft
+
 ## Use case
 
 This feature is designed with the perspective of an Advocate in mind, who has multiple clients. As an Advocate, I can view and search notes for all my clients, or filter down to just one person.
